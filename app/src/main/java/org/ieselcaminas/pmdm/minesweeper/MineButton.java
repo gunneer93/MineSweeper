@@ -18,7 +18,7 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
         Singleton s = Singleton.getInstance();
         android.view.ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(s.BUTTON_WIDTH, s.BUTTON_HEIGHT);
         setLayoutParams(params);
-        setBackgroundDrawable(getResources().getDrawable(R.drawable.boton));
+        setBackgroundDrawable(getResources().getDrawable(R.drawable.cell));
     }
 
     public int getRow() {
@@ -32,23 +32,17 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
     public void setState(ButtonState state) {
         this.state = state;
         switch (state) {
-            case OPEN:
-                setImageDrawable(getResources().getDrawable(R.drawable.boton_pressed));
-                setPadding(5,5,5,5);
-                setScaleType(ScaleType.FIT_XY);
+            case CLOSED:
+                setBackgroundDrawable(getResources().getDrawable(R.drawable.cell));
                 break;
-            case BOMB:
-                setImageDrawable(getResources().getDrawable(R.drawable.bomb));
-                setPadding(5,5,5,5);
-                setScaleType(ScaleType.FIT_XY);
+            case OPEN:
+                setImageDrawable(getResources().getDrawable(R.drawable.cell_0));
+                break;
+            case MINE:
+                setImageDrawable(getResources().getDrawable(R.drawable.mine));
                 break;
             case FLAG:
-                setImageDrawable(getResources().getDrawable(R.drawable.flag));
-                setPadding(5,5,5,5);
-                setScaleType(ScaleType.FIT_XY);
-                break;
-            case QUESTION:
-                setImageDrawable(getResources().getDrawable(R.drawable.question));
+                setImageDrawable(getResources().getDrawable(R.drawable.nflag));
                 setPadding(5,5,5,5);
                 setScaleType(ScaleType.FIT_XY);
                 break;

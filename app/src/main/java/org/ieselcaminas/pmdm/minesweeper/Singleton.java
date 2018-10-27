@@ -3,15 +3,18 @@ package org.ieselcaminas.pmdm.minesweeper;
 public class Singleton {
 
     private static Singleton singleton = null;
-    public static final int BUTTON_WIDTH = 45;
-    public static final int BUTTON_HEIGHT = 45;
-    private static int numRows = 4;
-    private static int numCols = 4;
-    private static int numBombs = 10;
-    private static int numBombsLeft = numBombs;
+    public static final int BUTTON_WIDTH = 60;
+    public static final int BUTTON_HEIGHT = 60;
+    private int numRows;
+    private int numCols;
+    private int numBombs;
+    private int numBombsLeft;
 
     private Singleton() {
-
+        numRows = 4;
+        numCols = 4;
+        numBombs = 5;
+        numBombsLeft = numBombs;
     }
 
     public static Singleton getInstance() {
@@ -38,23 +41,28 @@ public class Singleton {
     }
 
     public void setNumRows(int numRows){
-        singleton.numRows=numRows;
+
+        this.numRows = numRows;
     }
 
     public void setNumCols(int numCols){
-        singleton.numCols=numCols;
+
+        this.numCols=numCols;
     }
 
     public void setNumBombsLeft(int num) {
-        singleton.numBombsLeft=num;
+
+        this.numBombsLeft=num;
     }
 
     public void incrementBombsLeft() {
-        singleton.numBombsLeft++;
+
+        this.numBombsLeft++;
     }
 
     public void decrementeBombsLeft() {
-        singleton.numBombsLeft--;
+
+        this.numBombsLeft--;
     }
 
 }
