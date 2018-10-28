@@ -35,16 +35,31 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
             case CLOSED:
                 setBackgroundDrawable(getResources().getDrawable(R.drawable.cell));
                 break;
-            case OPEN:
+            case ZERO:
                 setImageDrawable(getResources().getDrawable(R.drawable.cell_0));
+                break;
+            case ONE:
+                setImageDrawable(getResources().getDrawable(R.drawable.cell_1));
+                break;
+            case TWO:
+                setImageDrawable(getResources().getDrawable(R.drawable.cell_2));
+                break;
+            case THREE:
+                setImageDrawable(getResources().getDrawable(R.drawable.cell_3));
+                break;
+            case FOUR:
+                setImageDrawable(getResources().getDrawable(R.drawable.cell_4));
+                break;
+            case FIVE:
+                setImageDrawable(getResources().getDrawable(R.drawable.cell_5));
                 break;
             case MINE:
                 setImageDrawable(getResources().getDrawable(R.drawable.mine));
                 break;
             case FLAG:
                 setImageDrawable(getResources().getDrawable(R.drawable.nflag));
-                setPadding(5,5,5,5);
-                setScaleType(ScaleType.FIT_XY);
+                //setPadding(5,5,5,5);
+                //setScaleType(ScaleType.FIT_XY);
                 break;
             default:
                 setImageBitmap(null);

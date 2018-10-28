@@ -11,9 +11,9 @@ public class Singleton {
     private int numBombsLeft;
 
     private Singleton() {
-        numRows = 4;
-        numCols = 4;
-        numBombs = 5;
+        numRows = 8;
+        numCols = 8;
+        numBombs = 10;
         numBombsLeft = numBombs;
     }
 

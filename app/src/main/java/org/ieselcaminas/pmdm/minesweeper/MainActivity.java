@@ -64,9 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void resetGame() {
         Button resetButton = findViewById(R.id.resetButton);
-        addButtons(grid);
-        generateMines();
+        TextView textGameOver = findViewById(R.id.textView);
+        grid.removeAllViews();
+        initGrid();
         resetButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.start));
+        textGameOver.setText("");
     }
 
     private void initGrid() {
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     checkAction(button);
+                    checkCellValue(button);
                 }
                 return false;
             }
@@ -114,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 button.setState(ButtonState.FLAG);
                 //button.setTag("FLAG");
                 TextView remainingBombs = findViewById(R.id.remainingBombs);
-                s.setNumBombsLeft(s.getNumBombsLeft() - 1);
+                s.decrementeBombsLeft();
                 remainingBombs.setText("" + s.getNumBombsLeft());
             }
         } else {
@@ -122,52 +125,89 @@ public class MainActivity extends AppCompatActivity {
                 if(button.getState().equals(ButtonState.FLAG)) {
                     button.setState(ButtonState.CLOSED);
                     //button.setTag("CLOSED");
-                    s.setNumBombsLeft(s.getNumBombsLeft() + 1);
+                    s.incrementBombsLeft();
                     TextView remainingBombs = findViewById(R.id.remainingBombs);
                     if(!remainingBombs.getText().equals("" + s.getNumBombs())) {
                         remainingBombs.setText("" + s.getNumBombsLeft());
                     }
                 }
                 if(button.getTag().equals("MINE")) {
-                    button.setState(ButtonState.MINE);
+                    //button.setState(ButtonState.MINE);
+                    button.setImageDrawable(getResources().getDrawable(R.drawable.nexplosion));
                     for(int row = 0; row<s.getNumRows(); row++) {
                         for(int col = 0; col<s.getNumCols(); col++) {
                             buttons[row][col].setEnabled(false);
                         }
                     }
-                    gameOver(true);
+                    gameOver(true, button);
                 } else {
-                    button.setState(ButtonState.OPEN);
-                    button.setTag("OPEN");
+                    checkCellValue(button);
                 }
             }
         }
     }
 
-    private void gameOver(boolean state) {
+    private void checkCellValue(MineButton button) {
+        int buttonRow = button.getRow();
+        int buttonCol = button.getCol();
+        int mineCounter = 0;
+
+        for(int row = -1; row<2; row++) {
+            for(int col = -1; col<2; col++) {
+                try {
+                    //if((row != buttonRow) && (col != buttonCol)) {
+                        if(buttons[buttonRow+row][buttonCol+col].getTag().equals("MINE")) {
+                            mineCounter++;
+                        }
+                    //}
+                } catch (ArrayIndexOutOfBoundsException ex) {}
+            }
+        }
+        for(int i = 0; i<6; i++) {
+            if(mineCounter == i) {
+                switch(i) {
+                    case 0:
+                        button.setState(ButtonState.ZERO);
+                        break;
+                    case 1:
+                        button.setState(ButtonState.ONE);
+                        break;
+                    case 2:
+                        button.setState(ButtonState.TWO);
+                        break;
+                    case 3:
+                        button.setState(ButtonState.THREE);
+                        break;
+                    case 4:
+                        button.setState(ButtonState.FOUR);
+                        break;
+                    case 5:
+                        button.setState(ButtonState.FIVE);
+                        break;
+                }
+            }
+        }
+    }
+
+    private void gameOver(boolean state, MineButton mineButton) {
         Singleton s = Singleton.getInstance();
         Button resetButton = findViewById(R.id.resetButton);
         TextView textGameOver = findViewById(R.id.textView);
         if(state) {
+            textGameOver.setText("GAME OVER!!");
+            resetButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.lose));
             for(int row = 0; row<s.getNumRows(); row++) {
                 for(int col = 0; col<s.getNumCols(); col++) {
-                    if(buttons[row][col].getTag().equals("MINE")) {
-                        textGameOver.setText("GAME OVER!!");
+                    if(buttons[row][col].getTag().equals("MINE") && buttons[row][col] != mineButton) {
                         buttons[row][col].setState(ButtonState.MINE);
-                        resetButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.lose));
                     }
                 }
             }
         }
-    }
-
-    private void win(boolean state) {
-        Singleton s = Singleton.getInstance();
-        Button resetButton = findViewById(R.id.resetButton);
-        if(state) {
+        if(!state) {
+            textGameOver.setText("YOU WIN!!");
             resetButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.win));
         }
-
     }
 
     private void generateMines() {
@@ -179,9 +219,19 @@ public class MainActivity extends AppCompatActivity {
 
             if(!buttons[row][col].getTag().equals("MINE")) {
                 buttons[row][col].setTag("MINE");
+                //Mostrar minas..
                 buttons[row][col].setState(ButtonState.MINE);
                 bombCounter++;
             }
         }
     }
+
+    /*public boolean checkWin() {
+        Singleton s = Singleton.getInstance();
+        int totalCells = s.getNumRows() * s.getNumCols();
+        if() {
+            return true;
+        }
+        return false;
+    }*/
 }
