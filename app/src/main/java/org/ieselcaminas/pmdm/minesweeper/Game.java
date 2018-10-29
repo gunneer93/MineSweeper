@@ -10,12 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class Game extends AppCompatActivity {
 
     private GridLayout grid;
     private MineButton[][] buttons;
-    private boolean flagStatus;
-    private boolean gameOver;
+    public boolean gameOver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,36 +28,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 resetGame();
-            }
-        });
-
-        Button flagOn = findViewById(R.id.flagButton);
-        flagOn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //TextView textFlag = findViewById(R.id.flagAction);
-                //if(!flagButton.isEnabled()) {
-                    //textFlag.setText("ON");
-                    //textFlag.setTextColor(Color.GREEN);
-                    flagStatus = true;
-                    //flagButton.setEnabled(true);
-                //}
-                /*if(flagButton.isEnabled()) {
-                    textFlag.setText("OFF");
-                    textFlag.setTextColor(Color.RED);
-                    flagStatus = false;
-                    flagButton.setEnabled(false);
-                }*/
-                return false;
-            }
-        });
-
-        Button flagOff = findViewById(R.id.flagButton2);
-        flagOff.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                flagStatus = false;
-                return false;
             }
         });
     }
@@ -78,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         grid.setRowCount(s.getNumRows());
         grid.setColumnCount(s.getNumCols());
         addButtons(grid);
-        flagStatus = false;
         TextView remainingBombs = findViewById(R.id.remainingBombs);
         remainingBombs.setText("" + s.getNumBombsLeft());
         generateMines();
@@ -89,28 +57,15 @@ public class MainActivity extends AppCompatActivity {
         buttons = new MineButton[s.getNumRows()][s.getNumCols()];
         for(int row = 0; row<s.getNumRows(); row++) {
             for(int col = 0; col<s.getNumCols(); col++) {
-                MineButton button = new MineButton(getApplicationContext(), row, col);
+                MineButton button = new MineButton(getApplicationContext(), row, col, this);
                 buttons[row][col] = button;
                 button.setTag("CLOSED");
-                addListenerToButton(button);
                 gridLayout.addView(button);
             }
         }
     }
 
-    private void addListenerToButton(final MineButton button) {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkAction(button);
-                if(!gameOver) {
-                    checkCellValue(button);
-                }
-            }
-        });
-    }
-
-    private void checkAction(MineButton button) {
+    public void checkAction(MineButton button) {
         Singleton s = Singleton.getInstance();
         if(button.getTag().equals("MINE")) {
             button.setImageDrawable(getResources().getDrawable(R.drawable.nexplosion));
@@ -123,30 +78,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             checkCellValue(button);
         }
-        /*if(flagStatus) {
-            if(s.getNumBombsLeft() != 0) {
-                button.setState(ButtonState.FLAG);
-                //button.setTag("FLAG");
-                TextView remainingBombs = findViewById(R.id.remainingBombs);
-                s.decrementeBombsLeft();
-                remainingBombs.setText("" + s.getNumBombsLeft());
-            }
-        } else {
-            if(!flagStatus) {
-                if(button.getState().equals(ButtonState.FLAG)) {
-                    button.setState(ButtonState.CLOSED);
-                    //button.setTag("CLOSED");
-                    s.incrementBombsLeft();
-                    TextView remainingBombs = findViewById(R.id.remainingBombs);
-                    if(!remainingBombs.getText().equals("" + s.getNumBombs())) {
-                        remainingBombs.setText("" + s.getNumBombsLeft());
-                    }
-                }
-            }
-        }*/
     }
 
-    private void checkCellValue(MineButton button) {
+    public void checkCellValue(MineButton button) {
         int buttonRow = button.getRow();
         int buttonCol = button.getCol();
         int mineCounter = 0;
@@ -220,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             if(!buttons[row][col].getTag().equals("MINE")) {
                 buttons[row][col].setTag("MINE");
                 //Mostrar minas..
-                buttons[row][col].setState(ButtonState.MINE);
+                //buttons[row][col].setState(ButtonState.MINE);
                 bombCounter++;
             }
         }
