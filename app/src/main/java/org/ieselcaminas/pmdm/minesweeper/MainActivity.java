@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private GridLayout grid;
     private MineButton[][] buttons;
     private boolean flagStatus;
+    private boolean gameOver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,21 +99,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addListenerToButton(final MineButton button) {
-        button.setOnTouchListener(new View.OnTouchListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    checkAction(button);
+            public void onClick(View v) {
+                checkAction(button);
+                if(!gameOver) {
                     checkCellValue(button);
                 }
-                return false;
             }
         });
     }
 
     private void checkAction(MineButton button) {
         Singleton s = Singleton.getInstance();
-        if(flagStatus) {
+        if(button.getTag().equals("MINE")) {
+            button.setImageDrawable(getResources().getDrawable(R.drawable.nexplosion));
+            for(int row = 0; row<s.getNumRows(); row++) {
+                for(int col = 0; col<s.getNumCols(); col++) {
+                    buttons[row][col].setEnabled(false);
+                }
+            }
+            gameOver(true, button);
+        } else {
+            checkCellValue(button);
+        }
+        /*if(flagStatus) {
             if(s.getNumBombsLeft() != 0) {
                 button.setState(ButtonState.FLAG);
                 //button.setTag("FLAG");
@@ -131,20 +142,8 @@ public class MainActivity extends AppCompatActivity {
                         remainingBombs.setText("" + s.getNumBombsLeft());
                     }
                 }
-                if(button.getTag().equals("MINE")) {
-                    //button.setState(ButtonState.MINE);
-                    button.setImageDrawable(getResources().getDrawable(R.drawable.nexplosion));
-                    for(int row = 0; row<s.getNumRows(); row++) {
-                        for(int col = 0; col<s.getNumCols(); col++) {
-                            buttons[row][col].setEnabled(false);
-                        }
-                    }
-                    gameOver(true, button);
-                } else {
-                    checkCellValue(button);
-                }
             }
-        }
+        }*/
     }
 
     private void checkCellValue(MineButton button) {
@@ -155,11 +154,11 @@ public class MainActivity extends AppCompatActivity {
         for(int row = -1; row<2; row++) {
             for(int col = -1; col<2; col++) {
                 try {
-                    //if((row != buttonRow) && (col != buttonCol)) {
+                    if(!(row == 0 && col == 0)) {
                         if(buttons[buttonRow+row][buttonCol+col].getTag().equals("MINE")) {
                             mineCounter++;
                         }
-                    //}
+                    }
                 } catch (ArrayIndexOutOfBoundsException ex) {}
             }
         }
@@ -203,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+            gameOver = true;
         }
         if(!state) {
             textGameOver.setText("YOU WIN!!");
