@@ -15,6 +15,7 @@ public class Game extends AppCompatActivity {
     private GridLayout grid;
     private MineButton[][] buttons;
     public boolean gameOver;
+    public TextView remainingBombs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class Game extends AppCompatActivity {
         grid.setRowCount(s.getNumRows());
         grid.setColumnCount(s.getNumCols());
         addButtons(grid);
-        TextView remainingBombs = findViewById(R.id.remainingBombs);
-        remainingBombs.setText("" + s.getNumBombsLeft());
+        remainingBombs = findViewById(R.id.remainingBombs);
+        remainingBombs.setText("" + s.getNumBombs());
         generateMines();
     }
 
@@ -60,6 +61,7 @@ public class Game extends AppCompatActivity {
                 MineButton button = new MineButton(getApplicationContext(), row, col, this);
                 buttons[row][col] = button;
                 button.setTag("CLOSED");
+                button.setState(ButtonState.CLOSED);
                 gridLayout.addView(button);
             }
         }
@@ -85,6 +87,8 @@ public class Game extends AppCompatActivity {
         int buttonCol = button.getCol();
         int mineCounter = 0;
 
+        button.setState(ButtonState.OPEN);
+
         for(int row = -1; row<2; row++) {
             for(int col = -1; col<2; col++) {
                 try {
@@ -96,27 +100,15 @@ public class Game extends AppCompatActivity {
                 } catch (ArrayIndexOutOfBoundsException ex) {}
             }
         }
-        for(int i = 0; i<6; i++) {
-            if(mineCounter == i) {
-                switch(i) {
-                    case 0:
-                        button.setState(ButtonState.ZERO);
-                        break;
-                    case 1:
-                        button.setState(ButtonState.ONE);
-                        break;
-                    case 2:
-                        button.setState(ButtonState.TWO);
-                        break;
-                    case 3:
-                        button.setState(ButtonState.THREE);
-                        break;
-                    case 4:
-                        button.setState(ButtonState.FOUR);
-                        break;
-                    case 5:
-                        button.setState(ButtonState.FIVE);
-                        break;
+        button.displayNumber(mineCounter);
+        if(mineCounter == 0) {
+            for(int row = -1; row<2; row++) {
+                for(int col = -1; col<2; col++) {
+                    try {
+                        if(!(row == 0 && col == 0) && buttons[buttonRow+row][buttonCol+col].getState() == ButtonState.CLOSED) {
+                            checkCellValue(buttons[buttonRow+row][buttonCol+col]);
+                        }
+                    } catch (ArrayIndexOutOfBoundsException ex) {}
                 }
             }
         }
@@ -138,11 +130,19 @@ public class Game extends AppCompatActivity {
             }
             gameOver = true;
         }
+        boolean win = false;
         if(!state) {
+            for(int row = 0; row<s.getNumRows(); row++) {
+                for (int col = 0; col < s.getNumCols(); col++) {
+                    //if(buttons[row][col].getState() ==
+                }
+            }
             textGameOver.setText("YOU WIN!!");
             resetButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.win));
         }
     }
+
+
 
     private void generateMines() {
         Singleton s = Singleton.getInstance();
@@ -159,13 +159,4 @@ public class Game extends AppCompatActivity {
             }
         }
     }
-
-    /*public boolean checkWin() {
-        Singleton s = Singleton.getInstance();
-        int totalCells = s.getNumRows() * s.getNumCols();
-        if() {
-            return true;
-        }
-        return false;
-    }*/
 }
