@@ -38,12 +38,13 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
                     if(state == ButtonState.QUESTION) {
                         setState(ButtonState.CLOSED);
                     } else {
-                        game.checkAction(MineButton.this);
                         if(!game.gameOver) {
                             game.checkCellValue(MineButton.this);
                         }
                     }
                 }
+                game.checkLose(MineButton.this);
+                game.checkWin();
             }
         });
 
@@ -62,7 +63,7 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
             @Override
             public boolean onLongClick(View v) {
                 Singleton s = Singleton.getInstance();
-                if(state == ButtonState.CLOSED) {
+                if(state == ButtonState.CLOSED && s.getNumBombsLeft() > 0) {
                     setState(ButtonState.FLAG);
                     s.decrementeBombsLeft();
                     game.remainingBombs.setText("" + s.getNumBombsLeft());
@@ -119,6 +120,9 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
                 break;
             case FLAG:
                 setImageDrawable(getResources().getDrawable(R.drawable.nflag));
+                break;
+            case GREEN_FLAG:
+                setImageDrawable(getResources().getDrawable(R.drawable.greenflag));
                 break;
             case MINE:
                 setImageDrawable(getResources().getDrawable(R.drawable.mine));
