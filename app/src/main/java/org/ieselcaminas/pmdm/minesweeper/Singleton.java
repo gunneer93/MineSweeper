@@ -50,6 +50,10 @@ public class Singleton {
         this.numCols=numCols;
     }
 
+    public void setNumBombs(int numBombs) {
+        this.numBombs = numBombs;
+    }
+
     public void setNumBombsLeft(int num) {
 
         this.numBombsLeft=num;

@@ -1,10 +1,15 @@
 package org.ieselcaminas.pmdm.minesweeper;
 
-import android.graphics.Color;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
-import android.view.MotionEvent;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +28,9 @@ public class Game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         resetButton = findViewById(R.id.resetButton);
         textGameOver = findViewById(R.id.textView);
@@ -159,6 +167,34 @@ public class Game extends AppCompatActivity {
                 buttons[row][col].setState(ButtonState.MINE);
                 bombCounter++;
             }
+        }
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater(); inflater.inflate(R.menu.menu_toolbar, menu); return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, Settings.class);
+                startActivityForResult(intent, 123);
+                return true;
+            default:return super.onOptionsItemSelected(item); }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode==RESULT_OK) {
+            Singleton s = Singleton.getInstance();
+            Bundle extras = data.getExtras();
+            String rows = extras.getString("rows");
+            String cols = extras.getString("cols");
+            String mines = extras.getString("mines");
+
+            s.setNumRows(Integer.parseInt(rows));
+            s.setNumCols(Integer.parseInt(cols));
+            s.setNumBombs(Integer.parseInt(mines));
         }
     }
 }

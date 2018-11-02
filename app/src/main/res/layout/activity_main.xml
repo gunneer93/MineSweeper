@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     android:orientation="vertical"
     tools:context=".Game">
 
+    <include layout="@layout/toolbar"></include>
 
     <LinearLayout
         android:layout_width="match_parent"

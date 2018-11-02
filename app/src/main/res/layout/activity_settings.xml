@@ -1,0 +1,121 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Settings"
+        android:textSize="24sp"
+        app:fontFamily="@font/pacifico" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="Rows: "
+            android:textSize="18sp"
+            app:fontFamily="@font/pacifico" />
+
+        <EditText
+            android:id="@+id/rowsEditText"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/pacifico" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="Columns: "
+            android:textSize="18sp"
+            app:fontFamily="@font/pacifico" />
+
+        <EditText
+            android:id="@+id/columnsEditText"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/pacifico" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="Mines: "
+            android:textSize="18sp"
+            app:fontFamily="@font/pacifico" />
+
+        <EditText
+            android:id="@+id/minesEditText"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/pacifico" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancelButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/pacifico"
+            android:text="@string/cancel"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorLink="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/okButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/pacifico"
+            android:text="@string/ok"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorLink="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>
