@@ -30,15 +30,11 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
             @Override
             public void onClick(View v) {
                 Singleton s = Singleton.getInstance();
-                if(state == ButtonState.FLAG) {
-                    setState(ButtonState.QUESTION);
-                    s.incrementBombsLeft();
-                    game.remainingBombs.setText("" + s.getNumBombsLeft());
-                } else {
-                    if(state == ButtonState.QUESTION) {
+                if(!(state == ButtonState.FLAG)) {
+                    if (state == ButtonState.QUESTION) {
                         setState(ButtonState.CLOSED);
                     } else {
-                        if(!game.gameOver) {
+                        if (!game.gameOver) {
                             game.checkCellValue(MineButton.this);
                         }
                     }
@@ -69,9 +65,13 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
                     game.remainingBombs.setText("" + s.getNumBombsLeft());
                 } else {
                     if(state == ButtonState.FLAG) {
-                        setState(ButtonState.CLOSED);
+                        setState(ButtonState.QUESTION);
                         s.incrementBombsLeft();
                         game.remainingBombs.setText("" + s.getNumBombsLeft());
+                    } else {
+                        if(state == ButtonState.QUESTION) {
+                            setState(ButtonState.CLOSED);
+                        }
                     }
                 }
                 return true;

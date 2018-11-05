@@ -164,7 +164,7 @@ public class Game extends AppCompatActivity {
             if(!buttons[row][col].getTag().equals("MINE")) {
                 buttons[row][col].setTag("MINE");
                 //Mostrar minas..
-                buttons[row][col].setState(ButtonState.MINE);
+                //buttons[row][col].setState(ButtonState.MINE);
                 bombCounter++;
             }
         }
@@ -185,7 +185,7 @@ public class Game extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode==RESULT_OK) {
+        if (requestCode == 123 && resultCode==RESULT_OK) {
             Singleton s = Singleton.getInstance();
             Bundle extras = data.getExtras();
             String rows = extras.getString("rows");
@@ -195,6 +195,8 @@ public class Game extends AppCompatActivity {
             s.setNumRows(Integer.parseInt(rows));
             s.setNumCols(Integer.parseInt(cols));
             s.setNumBombs(Integer.parseInt(mines));
+
+            resetGame();
         }
     }
 }
