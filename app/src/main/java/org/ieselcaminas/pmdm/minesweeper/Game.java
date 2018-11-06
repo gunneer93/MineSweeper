@@ -47,10 +47,12 @@ public class Game extends AppCompatActivity {
     }
 
     private void resetGame() {
+        Singleton s = Singleton.getInstance();
         grid.removeAllViews();
         initGrid();
         resetButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.start));
         textGameOver.setText("");
+        s.setNumBombsLeft(s.getNumBombs());
     }
 
     private void initGrid() {
