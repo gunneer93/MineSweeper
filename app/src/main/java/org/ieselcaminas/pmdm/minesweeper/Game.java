@@ -150,6 +150,11 @@ public class Game extends AppCompatActivity {
             }
         }
         if(win) {
+            for (int row = 0; row < s.getNumRows(); row++) {
+                for (int col = 0; col < s.getNumCols(); col++) {
+                    buttons[row][col].setEnabled(false);
+                }
+            }
             textGameOver.setText("YOU WIN!!");
             resetButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.win));
         }

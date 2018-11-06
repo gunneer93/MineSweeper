@@ -29,7 +29,6 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Singleton s = Singleton.getInstance();
                 if(!(state == ButtonState.FLAG)) {
                     if (state == ButtonState.QUESTION) {
                         setState(ButtonState.CLOSED);
@@ -74,6 +73,7 @@ public class MineButton extends android.support.v7.widget.AppCompatImageButton {
                         }
                     }
                 }
+                game.checkWin();
                 return true;
             }
         });
